@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>PulseBoard Collaborative</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+            rel="stylesheet"
+        />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        fontFamily: {
+                            sans: ["Space Grotesk", "sans-serif"],
+                            mono: ["IBM Plex Mono", "monospace"],
+                        },
+                        colors: {
+                            sand: {
+                                50: "#f9f5ef",
+                                100: "#f3eadb",
+                                200: "#e6d6ba",
+                                700: "#7a6042",
+                                900: "#241d17",
+                            },
+                            ember: {
+                                500: "#d65a31",
+                                600: "#b54520",
+                            },
+                            pine: {
+                                500: "#2b7a78",
+                            },
+                        },
+                        boxShadow: {
+                            panel: "0 18px 50px rgba(93, 56, 24, 0.12)",
+                        },
+                    },
+                },
+            };
+        </script>
+
+        <link rel="stylesheet" href="/style.css" />
+    </head>
+
+    <body class="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(214,90,49,0.18),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(43,122,120,0.18),transparent_22%),linear-gradient(135deg,#f7efe4,#efe6d6_48%,#f8f3eb)] text-sand-900">
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="/socket.io/socket.io.js"></script>
+        <script src="/app.js"></script>
+    </body>
+</html>
