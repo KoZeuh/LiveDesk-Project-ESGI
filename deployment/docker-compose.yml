@@ -9,6 +9,7 @@ services:
       NODE_ENV: production
       PORT: 3000
       DASHBOARD_INTERVAL_MS: ${DASHBOARD_INTERVAL_MS:-2000}
+      WEBRTC_ICE_SERVERS: ${WEBRTC_ICE_SERVERS:-}
       DATABASE_PATH: /usr/src/app/data/data.sqlite
     volumes:
       - sqlite_data:/usr/src/app/data

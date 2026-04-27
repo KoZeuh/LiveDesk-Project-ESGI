@@ -4,6 +4,7 @@ const state = {
   onlineUsers: [],
   notifications: [],
   leaderboard: [],
+  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
   dashboardPoints: { labels: [], cpu: [], ram: [] },
   peerConnection: null,
   localStream: null,
@@ -13,6 +14,8 @@ const state = {
   pendingCandidates: [],
   pendingIncomingCall: null,
 };
+
+let hasSentLeaveSignal = false;
 
 const els = {
   joinForm: document.getElementById("join-form"),
@@ -124,6 +127,46 @@ function escapeHtml(value) {
     .replaceAll(">", "&gt;")
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
+}
+
+function isLocalHostname(hostname) {
+  return hostname === "localhost" || hostname === "127.0.0.1" || hostname === "::1";
+}
+
+function normalizeIceServers(servers) {
+  if (!Array.isArray(servers)) {
+    return [{ urls: "stun:stun.l.google.com:19302" }];
+  }
+
+  const normalized = servers
+    .map((server) => {
+      if (!server || typeof server !== "object") {
+        return null;
+      }
+
+      const urls = Array.isArray(server.urls)
+        ? server.urls.filter((value) => typeof value === "string" && value.trim())
+        : typeof server.urls === "string" && server.urls.trim()
+          ? server.urls.trim()
+          : null;
+
+      if (!urls || (Array.isArray(urls) && !urls.length)) {
+        return null;
+      }
+
+      const normalizedServer = { urls };
+      if (typeof server.username === "string" && server.username.trim()) {
+        normalizedServer.username = server.username.trim();
+      }
+      if (typeof server.credential === "string" && server.credential.trim()) {
+        normalizedServer.credential = server.credential.trim();
+      }
+
+      return normalizedServer;
+    })
+    .filter(Boolean);
+
+  return normalized.length ? normalized : [{ urls: "stun:stun.l.google.com:19302" }];
 }
 
 function renderOnlineUsers() {
@@ -372,6 +415,14 @@ async function ensureLocalMedia() {
     return state.localStream;
   }
 
+  if (!navigator.mediaDevices || typeof navigator.mediaDevices.getUserMedia !== "function") {
+    throw new Error("Ton navigateur ne supporte pas l'acces camera/micro.");
+  }
+
+  if (!window.isSecureContext && !isLocalHostname(window.location.hostname)) {
+    throw new Error("La camera est bloquee en HTTP. Active HTTPS sur le serveur pour la visio.");
+  }
+
   state.localStream = await navigator.mediaDevices.getUserMedia({
     video: true,
     audio: true,
@@ -409,7 +460,7 @@ async function createPeerConnection(target) {
   await ensureLocalMedia();
 
   const pc = new RTCPeerConnection({
-    iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
+    iceServers: state.iceServers,
   });
 
   state.remoteStream = new MediaStream();
@@ -467,6 +518,37 @@ function endCall(notifyRemote = true) {
 
   resetCallState();
 }
+
+function leaveSession() {
+  if (hasSentLeaveSignal) {
+    return;
+  }
+
+  hasSentLeaveSignal = true;
+  if (state.currentCallTarget) {
+    endCall(true);
+  }
+
+  if (socket.connected && state.currentUser) {
+    socket.emit("user:leave", {}, () => {
+      socket.disconnect();
+    });
+    socket.disconnect();
+    return;
+  }
+
+  if (socket.connected) {
+    socket.disconnect();
+  }
+}
+
+window.addEventListener("beforeunload", leaveSession);
+window.addEventListener("pagehide", (event) => {
+  if (event.persisted) {
+    return;
+  }
+  leaveSession();
+});
 
 async function startOutgoingCall(target) {
   if (state.currentCallTarget) {
@@ -564,6 +646,7 @@ els.joinForm.addEventListener("submit", async (event) => {
   state.onlineUsers = response.payload.onlineUsers;
   state.notifications = response.payload.notifications;
   state.leaderboard = response.payload.leaderboard;
+  state.iceServers = normalizeIceServers(response.payload.webrtc?.iceServers);
   els.chatMessages.innerHTML = "";
   response.payload.messages.forEach((message) => appendChatMessage(message));
   renderOnlineUsers();
@@ -572,6 +655,11 @@ els.joinForm.addEventListener("submit", async (event) => {
   renderOverviewFeed();
   els.joinStatus.textContent = `Connecté en tant que ${pseudo}.`;
   addToast("info", `Bienvenue ${pseudo}`);
+
+  if (!window.isSecureContext && !isLocalHostname(window.location.hostname)) {
+    addToast("warning", "Camera WebRTC indisponible en HTTP: active HTTPS sur le serveur.");
+  }
+
   requestNotificationPermission();
 });
 

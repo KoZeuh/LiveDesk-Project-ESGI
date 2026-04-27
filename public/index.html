@@ -1,305 +1,323 @@
 <!DOCTYPE html>
 <html lang="fr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>PulseBoard Collaborative</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-        <link
-            href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-            rel="stylesheet"
-        />
-        <script src="https://cdn.tailwindcss.com"></script>
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        fontFamily: {
-                            sans: ["Space Grotesk", "sans-serif"],
-                            mono: ["IBM Plex Mono", "monospace"],
-                        },
-                        colors: {
-                            sand: {
-                                50: "#f9f5ef",
-                                100: "#f3eadb",
-                                200: "#e6d6ba",
-                                700: "#7a6042",
-                                900: "#241d17",
-                            },
-                            ember: {
-                                500: "#d65a31",
-                                600: "#b54520",
-                            },
-                            pine: {
-                                500: "#2b7a78",
-                            },
-                        },
-                        boxShadow: {
-                            panel: "0 18px 50px rgba(93, 56, 24, 0.12)",
-                        },
-                    },
-                },
-            };
-        </script>
 
-        <link rel="stylesheet" href="/style.css" />
-    </head>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PulseBoard Collaborative</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ["Space Grotesk", "sans-serif"],
+            mono: ["IBM Plex Mono", "monospace"],
+          },
+          colors: {
+            sand: {
+              50: "#f9f5ef",
+              100: "#f3eadb",
+              200: "#e6d6ba",
+              700: "#7a6042",
+              900: "#241d17",
+            },
+            ember: {
+              500: "#d65a31",
+              600: "#b54520",
+            },
+            pine: {
+              500: "#2b7a78",
+            },
+          },
+          boxShadow: {
+            panel: "0 18px 50px rgba(93, 56, 24, 0.12)",
+          },
+        },
+      },
+    };
+  </script>
 
-    <body class="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(214,90,49,0.18),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(43,122,120,0.18),transparent_22%),linear-gradient(135deg,#f7efe4,#efe6d6_48%,#f8f3eb)] text-sand-900">
-        <div class="mx-auto grid min-h-screen max-w-[1600px] gap-5 p-4 lg:grid-cols-[320px_minmax(0,1fr)]">
-            <aside class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur xl:sticky xl:top-4 xl:h-[calc(100vh-2rem)]">
-                <div class="space-y-1">
-                    <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-ember-500">Projet Web Temps Reel</p>
-                    <h1 class="text-3xl font-bold">PulseBoard</h1>
-                    <p class="text-sm text-sand-700">
-                        Chat, dashboard live, notifications, classement et visio WebRTC.
-                    </p>
-                </div>
+  <link rel="stylesheet" href="/style.css" />
+</head>
 
-                <form id="join-form" class="mt-6 space-y-3">
-                    <label for="pseudo" class="block text-sm font-medium text-sand-700">Pseudo</label>
-                    <div class="flex flex-col gap-3 sm:flex-row">
-                        <input
-                            id="pseudo"
-                            name="pseudo"
-                            maxlength="24"
-                            placeholder="Ex. Nora"
-                            required
-                            class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white/80 px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20"
-                        />
-                        <button type="submit" class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Entrer</button>
-                    </div>
-                    <p id="join-status" class="text-sm text-sand-700">Connecte-toi pour activer les canaux temps réel.</p>
-                </form>
+<body
+  class="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(214,90,49,0.18),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(43,122,120,0.18),transparent_22%),linear-gradient(135deg,#f7efe4,#efe6d6_48%,#f8f3eb)] text-sand-900">
+  <div class="mx-auto grid min-h-screen max-w-[1600px] gap-5 p-4 lg:grid-cols-[320px_minmax(0,1fr)]">
+    <aside
+      class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur xl:sticky xl:top-4 xl:h-[calc(100vh-2rem)]">
+      <div class="space-y-1">
+        <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-ember-500">Projet Web Temps Reel</p>
+        <h1 class="text-3xl font-bold">PulseBoard</h1>
+        <p class="text-sm text-sand-700">
+          Chat, dashboard live, notifications, classement et visio WebRTC.
+        </p>
+      </div>
 
-                <section class="mt-6">
-                    <div class="mb-3 flex items-center justify-between gap-3">
-                        <h2 class="text-sm font-semibold uppercase tracking-wide text-sand-700">Utilisateurs en ligne</h2>
-                        <span id="online-count" class="rounded-full bg-sand-900/5 px-3 py-1 font-mono text-xs">0</span>
-                    </div>
+      <form id="join-form" class="mt-6 space-y-3">
+        <label for="pseudo" class="block text-sm font-medium text-sand-700">Pseudo</label>
+        <div class="flex flex-col gap-3 sm:flex-row">
+          <input id="pseudo" name="pseudo" maxlength="24" placeholder="Ex. Nora" required
+            class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white/80 px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20" />
+          <button type="submit"
+            class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Entrer</button>
+        </div>
+        <p id="join-status" class="text-sm text-sand-700">Connecte-toi pour activer les canaux temps réel.</p>
+      </form>
 
-                    <ul id="online-users" class="flex max-h-[220px] flex-col gap-3 overflow-auto pr-1"></ul>
-                </section>
-
-                <section class="mt-6">
-                    <div class="mb-3 flex items-center justify-between gap-3">
-                        <h2 class="text-sm font-semibold uppercase tracking-wide text-sand-700">Classement</h2>
-                    </div>
-
-                    <div id="leaderboard" class="flex flex-col gap-3"></div>
-                </section>
-            </aside>
-
-            <main class="grid min-w-0 gap-4">
-                <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-4 shadow-panel backdrop-blur">
-                    <div class="grid gap-4 lg:grid-cols-[minmax(260px,0.8fr)_minmax(0,1.2fr)] lg:items-center">
-                        <div>
-                            <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-ember-500">Pilotage global</p>
-                            <h2 class="mt-1 text-2xl font-bold">Vue instantanée de la plateforme</h2>
-                            <p class="mt-2 text-sm text-sand-700">
-                                Les indicateurs critiques restent visibles quel que soit l'onglet actif.
-                            </p>
-                        </div>
-
-                        <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
-                            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
-                                <span class="block text-xs uppercase tracking-wide text-sand-700">CPU</span>
-                                <strong id="cpu-value" class="mt-2 block text-3xl font-bold">--%</strong>
-                            </div>
-
-                            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
-                                <span class="block text-xs uppercase tracking-wide text-sand-700">RAM</span>
-                                <strong id="ram-value" class="mt-2 block text-3xl font-bold">--%</strong>
-                            </div>
-
-                            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
-                                <span class="block text-xs uppercase tracking-wide text-sand-700">Messages</span>
-                                <strong id="messages-total" class="mt-2 block text-3xl font-bold">0</strong>
-                            </div>
-
-                            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
-                                <span class="block text-xs uppercase tracking-wide text-sand-700">Sessions video</span>
-                                <strong id="video-total" class="mt-2 block text-3xl font-bold">0</strong>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <nav
-                    class="mx-auto grid w-full max-w-[720px] grid-cols-2 gap-2 rounded-[24px] border border-sand-700/10 bg-white/70 p-2 shadow-panel backdrop-blur md:grid-cols-4"
-                    aria-label="Navigation principale"
-                >
-                    <button class="tab-button is-active rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="overview" type="button">Aperçu</button>
-                    <button class="tab-button rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="chat" type="button">Chat</button>
-                    <button class="tab-button rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="notifications" type="button">Notifications</button>
-                    <button class="tab-button rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="video" type="button">Visio</button>
-                </nav>
-
-                <div class="min-w-0">
-                    <section class="tab-panel grid gap-4" data-panel="overview">
-                        <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
-                            <div class="grid gap-6 xl:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)]">
-                                <div class="space-y-4">
-                                    <div>
-                                        <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-ember-500">Plateforme collaborative</p>
-                                        <h2 class="mt-1 text-3xl font-bold">Centre de commande temps réel</h2>
-                                        <p class="mt-2 text-sm text-sand-700">
-                                        Pilote les modules de communication, surveillance et collaboration depuis une seule interface plus claire.
-                                        </p>
-                                    </div>
-
-                                    <div class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
-                                        <div class="mb-4 flex items-center justify-between gap-3">
-                                            <h2 class="text-lg font-semibold">État système</h2>
-                                            <div id="system-alerts" class="flex flex-wrap gap-2"></div>
-                                        </div>
-                                        <div class="grid gap-3 sm:grid-cols-2">
-                                            <div class="rounded-2xl border border-sand-700/10 bg-sand-50/80 p-4">
-                                                <span class="block text-xs uppercase tracking-wide text-sand-700">Utilisateurs actifs</span>
-                                                <strong id="overview-active-users" class="mt-2 block text-3xl font-bold">0</strong>
-                                            </div>
-                                            <div class="rounded-2xl border border-sand-700/10 bg-sand-50/80 p-4">
-                                                <span class="block text-xs uppercase tracking-wide text-sand-700">Notifications</span>
-                                                <strong id="overview-notifications-total" class="mt-2 block text-3xl font-bold">0</strong>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
-                                        <div class="mb-3 flex items-center justify-between gap-3">
-                                            <h2 class="text-lg font-semibold">Flux récent</h2>
-                                        </div>
-
-                                        <div id="overview-feed" class="grid gap-3"></div>
-                                    </div>
-                                </div>
-
-                                <div class="grid gap-4 md:grid-cols-2">
-                                    <div class="rounded-[24px] border border-sand-700/10 bg-white/80 p-4">
-                                        <span class="mb-3 block font-mono text-xs uppercase tracking-wide text-sand-700">Charge CPU</span>
-                                        <div class="chart-wrap h-[320px]">
-                                            <canvas id="cpu-chart"></canvas>
-                                        </div>
-                                    </div>
-                                    <div class="rounded-[24px] border border-sand-700/10 bg-white/80 p-4">
-                                        <span class="mb-3 block font-mono text-xs uppercase tracking-wide text-sand-700">Charge RAM</span>
-                                        <div class="chart-wrap h-[320px]">
-                                            <canvas id="ram-chart"></canvas>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </section>
-
-                    <section class="tab-panel hidden" data-panel="chat">
-                        <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
-                            <div class="mb-4 flex items-center justify-between gap-3">
-                                <h2 class="text-xl font-semibold">Chat multi-utilisateurs</h2>
-                            </div>
-
-                            <div id="chat-messages" class="flex min-h-[380px] max-h-[560px] flex-col gap-3 overflow-auto pr-1"></div>
-                            <form id="chat-form" class="mt-4 flex flex-col gap-3 sm:flex-row">
-                                <input
-                                    id="chat-input"
-                                    maxlength="300"
-                                    placeholder="Écris un message à toute l'équipe..."
-                                    class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white/80 px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20"
-                                />
-                                <button type="submit" class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Envoyer</button>
-                            </form>
-                        </section>
-                    </section>
-
-                    <section class="tab-panel hidden" data-panel="notifications">
-                        <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
-                            <div class="mb-4 flex items-center justify-between gap-3">
-                                <h2 class="text-xl font-semibold">Notifications push</h2>
-                            </div>
-                            <div class="grid gap-4 xl:grid-cols-[360px_minmax(0,1fr)]">
-                                <form id="notification-form" class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
-                                    <div class="space-y-4">
-                                        <label class="block space-y-2">
-                                            <span class="font-mono text-xs uppercase tracking-wide text-sand-700">Type</span>
-                                            <select id="notification-type" class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20">
-                                                <option value="info">Info</option>
-                                                <option value="warning">Avertissement</option>
-                                                <option value="critical">Critique</option>
-                                            </select>
-                                        </label>
-                                        <label class="block space-y-2">
-                                            <span class="font-mono text-xs uppercase tracking-wide text-sand-700">Titre</span>
-                                            <input id="notification-title" maxlength="80" placeholder="Titre de la notification" class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20" />
-                                        </label>
-                                        <label class="block space-y-2">
-                                            <span class="font-mono text-xs uppercase tracking-wide text-sand-700">Message</span>
-                                            <textarea id="notification-message" maxlength="200" rows="5" placeholder="Message de notification" class="min-h-[140px] w-full rounded-2xl border border-sand-700/10 bg-white px-4 py-3 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20"></textarea>
-                                        </label>
-                                        <button type="submit" class="h-12 w-full rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Diffuser</button>
-                                    </div>
-                                </form>
-                                <div class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
-                                    <div class="mb-3 flex items-center justify-between gap-3">
-                                        <h2 class="text-lg font-semibold">Historique récent</h2>
-                                    </div>
-                                    <div id="notifications-list" class="flex min-h-[380px] max-h-[560px] flex-col gap-3 overflow-auto pr-1"></div>
-                                </div>
-                            </div>
-                        </section>
-                    </section>
-
-                    <section class="tab-panel hidden" data-panel="video">
-                        <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
-                            <div class="mb-4 flex items-center justify-between gap-3">
-                                <h2 class="text-xl font-semibold">Visio WebRTC</h2>
-                            </div>
-
-                            <div id="incoming-call-box" class="hidden items-center justify-between gap-4 rounded-3xl border border-ember-500/15 bg-ember-500/10 p-4">
-                                <div>
-                                    <strong id="incoming-call-text" class="block text-base">Nouvel appel entrant</strong>
-                                    <span class="mt-1 block text-sm text-sand-700">Réponds depuis cet onglet sans popup navigateur.</span>
-                                </div>
-                                <div class="flex flex-col gap-3 sm:flex-row">
-                                    <button id="accept-call" type="button" class="h-11 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Accepter</button>
-                                    <button id="decline-call" type="button" class="h-11 rounded-2xl border border-sand-700/10 bg-white px-5 font-medium text-sand-900 transition hover:bg-sand-50">Refuser</button>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 flex flex-col gap-3 xl:flex-row">
-                                <select id="call-target" class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20"></select>
-                                <button id="start-call" type="button" class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Appeler</button>
-                                <button id="share-screen" type="button" class="h-12 rounded-2xl bg-sand-900 px-5 font-medium text-white transition hover:bg-sand-700">Partager l'écran</button>
-                                <button id="end-call" type="button" class="h-12 rounded-2xl border border-sand-700/10 bg-white px-5 font-medium text-sand-900 transition hover:bg-sand-50">Terminer</button>
-                            </div>
-
-                            <div class="mt-4 grid gap-4 xl:grid-cols-2">
-                                <div class="rounded-[24px] bg-sand-900 p-4 text-white">
-                                    <span class="mb-3 block text-sm text-white/70">Camera locale</span>
-                                    <video id="local-video" autoplay playsinline muted class="min-h-[240px] w-full rounded-2xl bg-black object-cover"></video>
-                                </div>
-                                <div class="rounded-[24px] bg-sand-900 p-4 text-white">
-                                    <span class="mb-3 block text-sm text-white/70">Participant distant</span>
-                                    <video id="remote-video" autoplay playsinline class="min-h-[240px] w-full rounded-2xl bg-black object-cover"></video>
-                                </div>
-                            </div>
-
-                            <div id="call-status" class="mt-4 text-sm text-sand-700">Aucune session active.</div>
-                            <div id="session-chat" class="mt-4 flex min-h-[260px] max-h-[360px] flex-col gap-3 overflow-auto pr-1"></div>
-                            <form id="session-chat-form" class="mt-4 flex flex-col gap-3 sm:flex-row">
-                                <input id="session-chat-input" maxlength="240" placeholder="Message dans la session video..." class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20" />
-                                <button type="submit" class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Envoyer</button>
-                            </form>
-                        </section>
-                    </section>
-                </div>
-            </main>
+      <section class="mt-6">
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-sand-700">Utilisateurs en ligne</h2>
+          <span id="online-count" class="rounded-full bg-sand-900/5 px-3 py-1 font-mono text-xs">0</span>
         </div>
 
-        <div id="toast-stack" class="pointer-events-none fixed bottom-4 right-4 z-20 flex max-w-sm flex-col gap-3"></div>
+        <ul id="online-users" class="flex max-h-[220px] flex-col gap-3 overflow-auto pr-1"></ul>
+      </section>
 
-        <script src="/chart.js"></script>
-        <script src="/socket.io/socket.io.js"></script>
-        <script src="/app.js"></script>
-    </body>
+      <section class="mt-6">
+        <div class="mb-3 flex items-center justify-between gap-3">
+          <h2 class="text-sm font-semibold uppercase tracking-wide text-sand-700">Classement</h2>
+        </div>
+
+        <div id="leaderboard" class="flex max-h-[260px] flex-col gap-3 overflow-auto pr-1"></div>
+      </section>
+    </aside>
+
+    <main class="grid min-w-0 gap-4">
+      <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-4 shadow-panel backdrop-blur">
+        <div class="grid gap-4 lg:grid-cols-[minmax(260px,0.8fr)_minmax(0,1.2fr)] lg:items-center">
+          <div>
+            <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-ember-500">Pilotage global</p>
+            <h2 class="mt-1 text-2xl font-bold">Vue instantanée de la plateforme</h2>
+            <p class="mt-2 text-sm text-sand-700">
+              Les indicateurs critiques restent visibles quel que soit l'onglet actif.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 xl:grid-cols-4">
+            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
+              <span class="block text-xs uppercase tracking-wide text-sand-700">CPU</span>
+              <strong id="cpu-value" class="mt-2 block text-3xl font-bold">--%</strong>
+            </div>
+
+            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
+              <span class="block text-xs uppercase tracking-wide text-sand-700">RAM</span>
+              <strong id="ram-value" class="mt-2 block text-3xl font-bold">--%</strong>
+            </div>
+
+            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
+              <span class="block text-xs uppercase tracking-wide text-sand-700">Messages</span>
+              <strong id="messages-total" class="mt-2 block text-3xl font-bold">0</strong>
+            </div>
+
+            <div class="rounded-3xl border border-white/60 bg-gradient-to-br from-ember-500/10 to-pine-500/10 p-4">
+              <span class="block text-xs uppercase tracking-wide text-sand-700">Sessions video</span>
+              <strong id="video-total" class="mt-2 block text-3xl font-bold">0</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <nav
+        class="mx-auto grid w-full max-w-[720px] grid-cols-2 gap-2 rounded-[24px] border border-sand-700/10 bg-white/70 p-2 shadow-panel backdrop-blur md:grid-cols-4"
+        aria-label="Navigation principale">
+        <button class="tab-button is-active rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="overview"
+          type="button">Aperçu</button>
+        <button class="tab-button rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="chat"
+          type="button">Chat</button>
+        <button class="tab-button rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="notifications"
+          type="button">Notifications</button>
+        <button class="tab-button rounded-2xl px-4 py-3 text-sm font-medium transition" data-tab="video"
+          type="button">Visio</button>
+      </nav>
+
+      <div class="min-w-0">
+        <section class="tab-panel grid gap-4" data-panel="overview">
+          <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
+            <div class="grid gap-6 xl:grid-cols-[minmax(260px,0.72fr)_minmax(0,1.28fr)]">
+              <div class="space-y-4">
+                <div>
+                  <p class="font-mono text-[11px] uppercase tracking-[0.24em] text-ember-500">Plateforme collaborative
+                  </p>
+                  <h2 class="mt-1 text-3xl font-bold">Centre de commande temps réel</h2>
+                  <p class="mt-2 text-sm text-sand-700">
+                    Pilote les modules de communication, surveillance et collaboration depuis une seule interface plus
+                    claire.
+                  </p>
+                </div>
+
+                <div class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
+                  <div class="mb-4 flex items-center justify-between gap-3">
+                    <h2 class="text-lg font-semibold">État système</h2>
+                    <div id="system-alerts" class="flex flex-wrap gap-2"></div>
+                  </div>
+                  <div class="grid gap-3 sm:grid-cols-2">
+                    <div class="rounded-2xl border border-sand-700/10 bg-sand-50/80 p-4">
+                      <span class="block text-xs uppercase tracking-wide text-sand-700">Utilisateurs actifs</span>
+                      <strong id="overview-active-users" class="mt-2 block text-3xl font-bold">0</strong>
+                    </div>
+                    <div class="rounded-2xl border border-sand-700/10 bg-sand-50/80 p-4">
+                      <span class="block text-xs uppercase tracking-wide text-sand-700">Notifications</span>
+                      <strong id="overview-notifications-total" class="mt-2 block text-3xl font-bold">0</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
+                  <div class="mb-3 flex items-center justify-between gap-3">
+                    <h2 class="text-lg font-semibold">Flux récent</h2>
+                  </div>
+
+                  <div id="overview-feed" class="grid gap-3"></div>
+                </div>
+              </div>
+
+              <div class="grid gap-4 md:grid-cols-2">
+                <div class="rounded-[24px] border border-sand-700/10 bg-white/80 p-4">
+                  <span class="mb-3 block font-mono text-xs uppercase tracking-wide text-sand-700">Charge CPU</span>
+                  <div class="chart-wrap h-[320px]">
+                    <canvas id="cpu-chart"></canvas>
+                  </div>
+                </div>
+                <div class="rounded-[24px] border border-sand-700/10 bg-white/80 p-4">
+                  <span class="mb-3 block font-mono text-xs uppercase tracking-wide text-sand-700">Charge RAM</span>
+                  <div class="chart-wrap h-[320px]">
+                    <canvas id="ram-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="chat">
+          <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <h2 class="text-xl font-semibold">Chat multi-utilisateurs</h2>
+            </div>
+
+            <div id="chat-messages" class="flex min-h-[380px] max-h-[560px] flex-col gap-3 overflow-auto pr-1"></div>
+            <form id="chat-form" class="mt-4 flex flex-col gap-3 sm:flex-row">
+              <input id="chat-input" maxlength="300" placeholder="Écris un message à toute l'équipe..."
+                class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white/80 px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20" />
+              <button type="submit"
+                class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Envoyer</button>
+            </form>
+          </section>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="notifications">
+          <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <h2 class="text-xl font-semibold">Notifications push</h2>
+            </div>
+            <div class="grid gap-4 xl:grid-cols-[360px_minmax(0,1fr)]">
+              <form id="notification-form" class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
+                <div class="space-y-4">
+                  <label class="block space-y-2">
+                    <span class="font-mono text-xs uppercase tracking-wide text-sand-700">Type</span>
+                    <select id="notification-type"
+                      class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20">
+                      <option value="info">Info</option>
+                      <option value="warning">Avertissement</option>
+                      <option value="critical">Critique</option>
+                    </select>
+                  </label>
+                  <label class="block space-y-2">
+                    <span class="font-mono text-xs uppercase tracking-wide text-sand-700">Titre</span>
+                    <input id="notification-title" maxlength="80" placeholder="Titre de la notification"
+                      class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20" />
+                  </label>
+                  <label class="block space-y-2">
+                    <span class="font-mono text-xs uppercase tracking-wide text-sand-700">Message</span>
+                    <textarea id="notification-message" maxlength="200" rows="5" placeholder="Message de notification"
+                      class="min-h-[140px] w-full rounded-2xl border border-sand-700/10 bg-white px-4 py-3 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20"></textarea>
+                  </label>
+                  <button type="submit"
+                    class="h-12 w-full rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Diffuser</button>
+                </div>
+              </form>
+              <div class="rounded-[24px] border border-sand-700/10 bg-white/70 p-4">
+                <div class="mb-3 flex items-center justify-between gap-3">
+                  <h2 class="text-lg font-semibold">Historique récent</h2>
+                </div>
+                <div id="notifications-list" class="flex min-h-[380px] max-h-[560px] flex-col gap-3 overflow-auto pr-1">
+                </div>
+              </div>
+            </div>
+          </section>
+        </section>
+
+        <section class="tab-panel hidden" data-panel="video">
+          <section class="rounded-[28px] border border-sand-700/10 bg-white/70 p-5 shadow-panel backdrop-blur">
+            <div class="mb-4 flex items-center justify-between gap-3">
+              <h2 class="text-xl font-semibold">Visio WebRTC</h2>
+            </div>
+
+            <div id="incoming-call-box"
+              class="hidden items-center justify-between gap-4 rounded-3xl border border-ember-500/15 bg-ember-500/10 p-4">
+              <div>
+                <strong id="incoming-call-text" class="block text-base">Nouvel appel entrant</strong>
+                <span class="mt-1 block text-sm text-sand-700">Réponds depuis cet onglet sans popup navigateur.</span>
+              </div>
+              <div class="flex flex-col gap-3 sm:flex-row">
+                <button id="accept-call" type="button"
+                  class="h-11 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Accepter</button>
+                <button id="decline-call" type="button"
+                  class="h-11 rounded-2xl border border-sand-700/10 bg-white px-5 font-medium text-sand-900 transition hover:bg-sand-50">Refuser</button>
+              </div>
+            </div>
+
+            <div class="mt-4 flex flex-col gap-3 xl:flex-row">
+              <select id="call-target"
+                class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20"></select>
+              <button id="start-call" type="button"
+                class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Appeler</button>
+              <button id="share-screen" type="button"
+                class="h-12 rounded-2xl bg-sand-900 px-5 font-medium text-white transition hover:bg-sand-700">Partager
+                l'écran</button>
+              <button id="end-call" type="button"
+                class="h-12 rounded-2xl border border-sand-700/10 bg-white px-5 font-medium text-sand-900 transition hover:bg-sand-50">Terminer</button>
+            </div>
+
+            <div class="mt-4 grid gap-4 xl:grid-cols-2">
+              <div class="rounded-[24px] bg-sand-900 p-4 text-white">
+                <span class="mb-3 block text-sm text-white/70">Camera locale</span>
+                <video id="local-video" autoplay playsinline muted
+                  class="min-h-[240px] w-full rounded-2xl bg-black object-cover"></video>
+              </div>
+              <div class="rounded-[24px] bg-sand-900 p-4 text-white">
+                <span class="mb-3 block text-sm text-white/70">Participant distant</span>
+                <video id="remote-video" autoplay playsinline
+                  class="min-h-[240px] w-full rounded-2xl bg-black object-cover"></video>
+              </div>
+            </div>
+
+            <div id="call-status" class="mt-4 text-sm text-sand-700">Aucune session active.</div>
+            <div id="session-chat" class="mt-4 flex min-h-[260px] max-h-[360px] flex-col gap-3 overflow-auto pr-1">
+            </div>
+            <form id="session-chat-form" class="mt-4 flex flex-col gap-3 sm:flex-row">
+              <input id="session-chat-input" maxlength="240" placeholder="Message dans la session video..."
+                class="h-12 w-full rounded-2xl border border-sand-700/10 bg-white px-4 outline-none transition focus:border-ember-500 focus:ring-2 focus:ring-ember-500/20" />
+              <button type="submit"
+                class="h-12 rounded-2xl bg-ember-500 px-5 font-medium text-white transition hover:bg-ember-600">Envoyer</button>
+            </form>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <div id="toast-stack" class="pointer-events-none fixed bottom-4 right-4 z-20 flex max-w-sm flex-col gap-3"></div>
+
+  <script src="/chart.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/app.js"></script>
+</body>
+
 </html>

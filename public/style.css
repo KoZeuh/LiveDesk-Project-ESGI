@@ -1,27 +1,29 @@
 html {
-    color-scheme: light;
+  color-scheme: light;
 }
 
 body {
-    font-family: "Space Grotesk", sans-serif;
+  font-family: "Space Grotesk", sans-serif;
 }
 
 .chart-wrap canvas {
-    width: 100% !important;
-    height: 100% !important;
+  width: 100% !important;
+  height: 100% !important;
 }
 
 #chat-messages::-webkit-scrollbar,
 #notifications-list::-webkit-scrollbar,
 #session-chat::-webkit-scrollbar,
-#online-users::-webkit-scrollbar {
-    width: 10px;
+#online-users::-webkit-scrollbar,
+#leaderboard::-webkit-scrollbar {
+  width: 10px;
 }
 
 #chat-messages::-webkit-scrollbar-thumb,
 #notifications-list::-webkit-scrollbar-thumb,
 #session-chat::-webkit-scrollbar-thumb,
-#online-users::-webkit-scrollbar-thumb {
-    background: rgba(122, 96, 66, 0.25);
-    border-radius: 999px;
+#online-users::-webkit-scrollbar-thumb,
+#leaderboard::-webkit-scrollbar-thumb {
+  background: rgba(122, 96, 66, 0.25);
+  border-radius: 999px;
 }

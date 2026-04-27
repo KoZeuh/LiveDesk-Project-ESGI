@@ -11,6 +11,24 @@ function emitSystemMessage(io, content) {
   });
 }
 
+function cleanupSocketPresence(io, realtime, socket) {
+  const pseudo = socket.data.pseudo;
+  if (!pseudo || socket.data.presenceCleaned) {
+    return;
+  }
+
+  socket.data.presenceCleaned = true;
+  if (onlineUsers.get(pseudo) !== socket.id) {
+    return;
+  }
+
+  onlineUsers.delete(pseudo);
+  platformService.markUserOffline(pseudo);
+  emitSystemMessage(io, `${pseudo} a quitte la plateforme.`);
+  realtime.broadcastPresence();
+  realtime.broadcastLeaderboard();
+}
+
 function registerRealtimeSocket(io, realtime) {
   io.on("connection", (socket) => {
     socket.on("user:join", ({ pseudo }, ack) => {
@@ -19,12 +37,20 @@ function registerRealtimeSocket(io, realtime) {
         ack?.({ ok: false, error: "Pseudo invalide." });
         return;
       }
-      if (onlineUsers.has(cleanPseudo)) {
-        ack?.({ ok: false, error: "Ce pseudo est deja utilise." });
-        return;
+      const existingSocketId = onlineUsers.get(cleanPseudo);
+      if (existingSocketId) {
+        const existingSocket = io.sockets.sockets.get(existingSocketId);
+        if (existingSocket?.connected) {
+          ack?.({ ok: false, error: "Ce pseudo est deja utilise." });
+          return;
+        }
+
+        onlineUsers.delete(cleanPseudo);
+        platformService.markUserOffline(cleanPseudo);
       }
 
       socket.data.pseudo = cleanPseudo;
+      socket.data.presenceCleaned = false;
       onlineUsers.set(cleanPseudo, socket.id);
       platformService.markUserOnline(cleanPseudo);
       socket.join(cleanPseudo);
@@ -33,6 +59,11 @@ function registerRealtimeSocket(io, realtime) {
       emitSystemMessage(io, `${cleanPseudo} a rejoint la plateforme.`);
       realtime.broadcastPresence();
       realtime.broadcastLeaderboard();
+    });
+
+    socket.on("user:leave", (_, ack) => {
+      cleanupSocketPresence(io, realtime, socket);
+      ack?.({ ok: true });
     });
 
     socket.on("chat:send", ({ content }, ack) => {
@@ -158,16 +189,7 @@ function registerRealtimeSocket(io, realtime) {
     });
 
     socket.on("disconnect", () => {
-      const pseudo = socket.data.pseudo;
-      if (!pseudo) {
-        return;
-      }
-
-      onlineUsers.delete(pseudo);
-      platformService.markUserOffline(pseudo);
-      emitSystemMessage(io, `${pseudo} a quitte la plateforme.`);
-      realtime.broadcastPresence();
-      realtime.broadcastLeaderboard();
+      cleanupSocketPresence(io, realtime, socket);
     });
   });
 }

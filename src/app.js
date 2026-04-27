@@ -14,26 +14,26 @@ const { registerRealtimeSocket } = require("./modules/realtime/realtime.socket")
 const { createRealtimeService } = require("./modules/realtime/realtime.service");
 
 function createApp() {
-    const app = express();
-    const server = http.createServer(app);
-    const io = new Server(server);
-    const realtime = createRealtimeService(io);
+  const app = express();
+  const server = http.createServer(app);
+  const io = new Server(server);
+  const realtime = createRealtimeService(io);
 
-    app.use(express.json());
-    app.use(express.static(PUBLIC_DIR));
-    app.use("/api", createPlatformRouter());
-    app.use("/api", createDashboardRouter());
-    app.use("/api", createNotificationsRouter(realtime));
+  app.use(express.json());
+  app.use(express.static(PUBLIC_DIR));
+  app.use("/api", createPlatformRouter());
+  app.use("/api", createDashboardRouter());
+  app.use("/api", createNotificationsRouter(realtime));
 
-    registerRealtimeSocket(io, realtime);
+  registerRealtimeSocket(io, realtime);
 
-    setInterval(() => {
-        realtime.pushDashboard(dashboardService.buildDashboardPayload());
-    }, DASHBOARD_INTERVAL_MS);
+  setInterval(() => {
+    realtime.pushDashboard(dashboardService.buildDashboardPayload());
+  }, DASHBOARD_INTERVAL_MS);
 
-    return { app, server };
+  return { app, server };
 }
 
 module.exports = {
-    createApp,
+  createApp,
 };
