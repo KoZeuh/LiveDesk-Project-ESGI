@@ -1,0 +1,43 @@
+services:
+  app:
+    build:
+      context: ..
+      dockerfile: deployment/Dockerfile
+    restart: unless-stopped
+    init: true
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      DASHBOARD_INTERVAL_MS: ${DASHBOARD_INTERVAL_MS:-2000}
+      DATABASE_PATH: /usr/src/app/data/data.sqlite
+    volumes:
+      - sqlite_data:/usr/src/app/data
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "const http=require('http');const
+            req=http.get('http://127.0.0.1:3000/',res=>process.exit(res.statusC\
+            ode<500?0:1));req.on('error',()=>process.exit(1));",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    depends_on:
+      app:
+        condition: service_healthy
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+
+volumes:
+  sqlite_data:
+    name: plateform_collab_sqlite_data
