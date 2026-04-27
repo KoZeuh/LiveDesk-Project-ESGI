@@ -159,7 +159,7 @@ function renderLeaderboard() {
     div.className = "rounded-2xl border border-sand-700/10 bg-white/80 px-4 py-3";
     div.innerHTML =
       `<strong>#${index + 1} ${escapeHtml(entry.pseudo)}</strong>` +
-      `<span class="mt-1 block text-sm text-sand-700">Score ${entry.score} - ${entry.messages_sent} msg - ${entry.alerts_received} alertes - ${entry.video_sessions_started} sessions</span>`;
+      `<span class="mt-1 block text-sm text-sand-700">${entry.messages_sent} msg - ${entry.alerts_received} alertes - ${entry.video_sessions_started} sessions</span>`;
     els.leaderboard.appendChild(div);
   });
 }
@@ -231,7 +231,7 @@ function renderOverviewFeed() {
   if (topUser) {
     items.push({
       title: "Utilisateur le plus actif",
-      text: `${topUser.pseudo} mene avec ${topUser.score} points.`,
+      text: `${topUser.pseudo} mène avec ${topUser.score} points.`,
       meta: `${topUser.messages_sent} messages`,
     });
   }
@@ -240,14 +240,14 @@ function renderOverviewFeed() {
   if (lastChat) {
     items.push({
       title: "Conversation",
-      text: "Le chat est actif et synchronise en direct.",
-      meta: "Temps reel",
+      text: "Le chat est actif et synchronisé en direct.",
+      meta: "Temps réel",
     });
   }
 
   if (!items.length) {
     els.overviewFeed.innerHTML =
-      '<div class="rounded-2xl border border-sand-700/10 bg-white/80 px-4 py-3"><strong>Aucun evenement pour le moment</strong><span class="mt-1 block text-sm text-sand-700">Connecte des utilisateurs pour voir bouger la plateforme.</span></div>';
+      '<div class="rounded-2xl border border-sand-700/10 bg-white/80 px-4 py-3"><strong>Aucun événement pour le moment</strong></div>';
     return;
   }
 
@@ -327,7 +327,7 @@ function updateDashboard(payload) {
 
 function showIncomingCall(session) {
   state.pendingIncomingCall = session;
-  els.incomingCallText.textContent = `${session.caller} t'appelle en visioconference`;
+  els.incomingCallText.textContent = `${session.caller} t'appelle en visio`;
   els.incomingCallBox.classList.remove("hidden");
   els.incomingCallBox.classList.add("flex");
 }
@@ -470,7 +470,7 @@ function endCall(notifyRemote = true) {
 
 async function startOutgoingCall(target) {
   if (state.currentCallTarget) {
-    addToast("warning", "Une session est deja en cours.");
+    addToast("warning", "Une session est déjà en cours.");
     return;
   }
 
@@ -485,7 +485,7 @@ async function startOutgoingCall(target) {
 
   state.currentCallTarget = target;
   state.currentSessionId = response.session.id;
-  els.callStatus.textContent = `Invitation envoyee a ${target}. En attente de reponse...`;
+  els.callStatus.textContent = `Invitation envoyée à ${target}. En attente de réponse...`;
 }
 
 async function handleAcceptedCall(from, sessionId) {
@@ -503,7 +503,7 @@ async function handleAcceptedCall(from, sessionId) {
     sessionId,
   });
 
-  els.callStatus.textContent = `Negociation WebRTC en cours avec ${from}.`;
+  els.callStatus.textContent = `Négociation WebRTC en cours avec ${from}.`;
 }
 
 async function handleOffer(from, offer, sessionId) {
@@ -570,7 +570,7 @@ els.joinForm.addEventListener("submit", async (event) => {
   renderNotifications();
   renderLeaderboard();
   renderOverviewFeed();
-  els.joinStatus.textContent = `Connecte en tant que ${pseudo}.`;
+  els.joinStatus.textContent = `Connecté en tant que ${pseudo}.`;
   addToast("info", `Bienvenue ${pseudo}`);
   requestNotificationPermission();
 });
@@ -632,9 +632,9 @@ els.notificationForm.addEventListener("submit", async (event) => {
 
     els.notificationTitle.value = "";
     els.notificationMessage.value = "";
-    addToast(data.type, "Notification diffusee.");
+    addToast(data.type, "Notification diffusée.");
   } catch (error) {
-    addToast("critical", `Erreur reseau: ${error.message}`);
+    addToast("critical", `Erreur réseau: ${error.message}`);
   }
 });
 
@@ -649,7 +649,7 @@ els.startCall.addEventListener("click", async () => {
   try {
     await startOutgoingCall(target);
   } catch (error) {
-    addToast("critical", `Impossible de demarrer l'appel: ${error.message}`);
+    addToast("critical", `Impossible de démarrer l'appel: ${error.message}`);
   }
 });
 
@@ -661,7 +661,7 @@ els.acceptCall.addEventListener("click", async () => {
 
   state.currentCallTarget = session.caller;
   state.currentSessionId = session.id;
-  els.callStatus.textContent = "Invitation acceptee. Preparation des medias...";
+  els.callStatus.textContent = "Invitation acceptée. Préparation des médias...";
 
   try {
     await ensureLocalMedia();
@@ -676,7 +676,7 @@ els.acceptCall.addEventListener("click", async () => {
       sessionId: session.id,
     });
     resetCallState();
-    addToast("critical", `Acces camera/micro refuse: ${error.message}`);
+    addToast("critical", `Accès caméra/micro refusé: ${error.message}`);
   }
 });
 
@@ -696,7 +696,7 @@ els.declineCall.addEventListener("click", () => {
 
 els.shareScreen.addEventListener("click", async () => {
   if (!state.peerConnection || !state.localStream) {
-    addToast("warning", "Demarre un appel avant de partager l'ecran.");
+    addToast("warning", "Démarre un appel avant de partager l'écran.");
     return;
   }
 
@@ -717,10 +717,10 @@ els.shareScreen.addEventListener("click", async () => {
           els.localVideo.srcObject = state.localStream;
         }
       };
-      addToast("info", "Partage d'ecran active.");
+      addToast("info", "Partage d'écran activé.");
     }
   } catch (error) {
-    addToast("warning", `Partage annule: ${error.message}`);
+    addToast("warning", `Partage annulé: ${error.message}`);
   }
 });
 
@@ -790,13 +790,13 @@ socket.on("webrtc:accepted", async ({ from, sessionId }) => {
   try {
     await handleAcceptedCall(from, sessionId);
   } catch (error) {
-    addToast("critical", `Impossible de creer l'offre WebRTC: ${error.message}`);
+    addToast("critical", `Impossible de créer l'offre WebRTC: ${error.message}`);
     endCall(true);
   }
 });
 
 socket.on("webrtc:declined", ({ from }) => {
-  addToast("warning", `${from} a refuse l'appel.`);
+  addToast("warning", `${from} a refusé l'appel.`);
   resetCallState();
 });
 
@@ -823,7 +823,7 @@ socket.on("webrtc:signal", async ({ from, type, data, sessionId }) => {
 socket.on("webrtc:session-message", appendSessionMessage);
 
 socket.on("webrtc:end", ({ from }) => {
-  addToast("warning", `Session terminee par ${from}.`);
+  addToast("warning", `Session terminée par ${from}.`);
   resetCallState();
 });
 
